@@ -20,6 +20,10 @@
         - <Badge text="成功啦" type="tip" vertical="middle" />
         - <Badge text="失败啦" type="error" vertical="middle" />
 
+## 博客自动构建
+
+- 使用Travis
+
 <style lang="stylus">
     img {
         width: 200px;
