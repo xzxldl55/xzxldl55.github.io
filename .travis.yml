@@ -1,17 +1,18 @@
-## Travis 自动部署
-
 language: node_js
 node_js:
-  - lts/*
+- lts/*
 install:
-  - yarn install # npm ci
+- yarn install
 script:
-  - yarn docs:build # npm run docs:build
+- yarn docs:build
 deploy:
   provider: pages
   skip_cleanup: true
   local_dir: docs/.vuepress/dist
-  github_token: $GITHUB_TOKEN # 在 GitHub 中生成，用于允许 Travis 向你的仓库推送代码。在 Travis 的项目设置页面进行配置，设置为 secure variable
+  github_token: "$GITHUB_TOKEN"
   keep_history: true
   on:
-    branch: master
+    branch: build
+env:
+  global:
+    secure: IY8K+LjCRK32siQiVFuD6iLftJiWwiT5UdllI7a/gt1QLcqg7o0nwug6WFoG/Rt53z4ubBfntwZJJ7fbXxi+ksPuhweIoAXcT/oC84cFr47Uarxo/RtxKq4jVoua+rrl49vkfLzmQeEqWHPEcQTsXL5UaQ0BObhPbVRSL1cUQvopjkonLI6LZ9zHdTKoFcZkz5TsG/EX/tJRoyMXUPOIHF6CJjD7xscxjfcpjjQci3QwXTNDkISAynjShyrI9AKorgV8I4iqXg7WbyRmQ2Y8PktTWKlFO1vGbf2c32ns+5pXSiPywH/3YR8VKdJNrSoKoGMc+GJqlA9wCHV2BmfpW5AD625FYdDg4eLMSenA+uJkw8rNe9LPhl4Ps/1RjCqBgz7d5SA1Tg4OdwZF+siaCPDjxMRVhK1EYWj8puUwIqtF7uCZOT8P5Gsz3osXh4IuEAeeDNpfrpfBqpO2Q15BN1frnAdIsrQCO0nQBAOg7UqKgrvzOXlcq2VLZnRVwRnLR+l6bsq/VWJft9Axce0bgurVWpSc+g+ayroTKQxwMiMksHDHKOS+qRV6qeRWNdGxFy6fQRCvKJNRe2dngBiK+6Q/dxdfOF8TK/xACCjDaTVNoGOw6LJta09hOxdnFgxOrtoUlDwkLfewxMpF2gwMm6NPCPUPtXIykSKE0RL2Z7E=
