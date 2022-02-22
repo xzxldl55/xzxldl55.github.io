@@ -1,6 +1,7 @@
 import { defineConfig } from 'vuepress/config';
 
 export default defineConfig({
+    dest: './dist',
     title: '高产似母🐷的博客',
     description: '啊～ 我要高产似母猪🐷',
     configureWebpack: {
