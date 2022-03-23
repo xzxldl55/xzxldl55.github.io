@@ -185,8 +185,7 @@ header .title {
 }
 .switch_box {
     display: flex;
-    justify-content: flex-start;
-    margin-left: 100px;
+    justify-content: center;
 }
 .switch {
     line-height: 40px;
