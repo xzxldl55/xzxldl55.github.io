@@ -1,39 +1,204 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>抽取幸运同学答题辣！</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/animate.css" />
-    <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-    <script src="js/lib/common.js"></script>
-    <script src="js/index.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    <script src="./chart.min.js"></script>
+    <title>高三14班</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+            background: #f3f4f9;
+        }
+
+        body {
+            padding: 32px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            min-height: 100%;
+            padding: 64px;
+            border-radius: 8px;
+            background: #fff;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .left {
+            text-align: left;
+        }
+
+        .mx-8 {
+            margin: 8px 0;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .warn {
+            color: orange;
+        }
+
+        #fenbu_chart {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="box">
-        <header>
-            <div class="switch_box">
-                <button class="switch cls12 checked">12班</button>
-                <button class="switch cls14">14班</button>
-            </div>
-        </header>
-        <section>
-            <div class="hide" id="luckyDrawing"><input id="showName" readonly type="text"></div>
-            <div class="hide" id="result">
-                <div></div>
-            </div>
-        </section>
-        <footer>
-            <div class="btns">
-                <input type="number" id="txtNum" value="1" placeholder="请输入抽取人数">
-                <button id="btnStart">开始</button>
-                <button id="btnReset">重置</button>
-            </div>
-        </footer>
+    <div class="container">
+        <h2>高三14班概况</h2>
+        <hr style="margin-bottom: 16px;">
+        <details>
+            <summary>提交作业情况总览</summary>
+            <table>
+                <thead>
+                    <th>姓名</th>
+                    <th>语文</th>
+                    <th>数学</th>
+                    <th>英语</th>
+                    <th>总提交作业数</th>
+                </thead>
+                <tbody id="tBody"></tbody>
+            </table>
+        </details>
+        <details>
+            <summary>作业都提交了的同学</summary>
+            <p id="allwork__count"></p>
+            <ul id="allwork" class="red"></ul>
+        </details>
+        <details>
+            <summary>从未提交过作业同学</summary>
+            <p id="nowork__count"></p>
+            <ul id="nowork" class="warn"></ul>
+        </details>
+        <h4>作业提交分布图</h4>
+        <div id="fenbu_chart"></div>
     </div>
+
+    <script type="module">
+        import Chinese from './chinese.js'
+        import Maths from './maths.js'
+        import English from './english.js'
+
+        const totalSource = Chinese.map(student => ({
+            name: student.name,
+            chinese: student.complect,
+            math: Maths.filter(s => s.name === student.name)[0].complect,
+            english: English.filter(s => s.name === student.name)[0].complect,
+            complectCount: student.complect + Maths.filter(s => s.name === student.name)[0].complect + English.filter(s => s.name === student.name)[0].complect
+        })).sort((a, b) => {
+            return b.complectCount - a.complectCount
+        })
+
+        const $tBody = document.getElementById('tBody')
+        const $allwork = document.getElementById('allwork')
+        const $nowork = document.getElementById('nowork')
+
+        totalSource.forEach(stud => {
+            const $tr = document.createElement('tr')
+            $tr.innerHTML = `
+                <td>${stud.name}</td>
+                <td>${stud.chinese ? '已提交' : '未提交'}</td>
+                <td>${stud.math ? '已提交' : '未提交'}</td>
+                <td>${stud.english ? '已提交' : '未提交'}</td>
+                <td>${stud.chinese + stud.math + stud.english}</td>
+            `
+
+            $tBody.appendChild($tr)
+        })
+
+        document.getElementById('allwork__count').innerHTML = `人数：${totalSource.filter(stud => stud.complectCount === 3).length}`
+        totalSource.filter(stud => stud.complectCount === 3).forEach(stud => {
+            const $li = document.createElement('li')
+            $li.innerHTML = stud.name
+
+            $allwork.appendChild($li)
+        })
+
+        document.getElementById('nowork__count').innerHTML = `人数：${totalSource.filter(stud => !stud.complectCount).length}`
+        totalSource.filter(stud => !stud.complectCount).forEach(stud => {
+            const $li = document.createElement('li')
+            $li.innerHTML = stud.name
+
+            $nowork.appendChild($li)
+        })
+
+
+        const chartDom = document.getElementById('fenbu_chart');
+        const myChart = echarts.init(chartDom);
+        const option = {
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                top: '5%',
+                left: 'center'
+            },
+            series: [
+                {
+                    name: '作业提交情况',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: {
+                        borderRadius: 10,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    },
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                        show: true,
+                        fontSize: '40',
+                        fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: [
+                        {
+                            name: '全部提交作业',
+                            value: totalSource.filter(stud => stud.complectCount === 3).length
+                        },
+                        {
+                            name: '提交两次',
+                            value: totalSource.filter(stud => stud.complectCount === 2).length
+                        },
+                        {
+                            name: '提交一次',
+                            value: totalSource.filter(stud => stud.complectCount === 1).length
+                        },
+                        {
+                            name: '从未提交作业',
+                            value: totalSource.filter(stud => stud.complectCount === 0).length
+                        },
+                    ]
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
 </body>
 
 </html>
