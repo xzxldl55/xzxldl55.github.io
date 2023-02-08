@@ -28,4 +28,10 @@
     }
 </style>
 
+- 使用Netlify自动构建 [Netlify](https://app.netlify.com/sites/xzxldl/deploys/)
+
+  在Netlify可视化配置即可
+  
+  访问 [https://xzxldl.netlify.app/](https://xzxldl.netlify.app/)
+
 
