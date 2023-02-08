@@ -1,10 +1,8 @@
-## 🐷🐷的博客
+## 🐷🐷的博客 [![Netlify Status](https://api.netlify.com/api/v1/badges/a91267e4-37b9-4248-b8c4-01b3cad39e0f/deploy-status)](https://app.netlify.com/sites/xzxldl/deploys)
 
 | table | area | cool |
 | --- | --- | --- |
 | 好 | Dong | Hell |
-
-![弦儿](/images/xianer.jpg)
 
 ## VuePress内置组件
 
