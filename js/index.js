@@ -1,25 +1,27 @@
 ﻿//抽奖人员名单
 var class12 = "曾庆阳;万佳恒;吴方进;万瑾然;章星;聂宇豪;陶晨杰;樊超;彭晨屹;龚文涛;汪荣天;唐萌馨;易昊;樊诗彤;汪佳怡;李春红;章晗;胡聪智;阙文金;涂嘉铭;邹诗雨;徐欣航;刘飞宇;罗阳;李婷;胡书鸣;李杰;万尹萍;张盈盈;李博文;涂鹤立;熊键南;祝怡欣;万贻婷;涂智鹏;江海洋;谢宏艺;程学鹏;张宇轩;涂文城;魏涛;罗珍艳;王宽;付天乐;徐雯露;万玉琴;祝英伟;杜宇超;李轩;万国兰;刘苏鹏;胡朴楠;李思彤;付豪;喻俊哲";
 var class14 = '聂罗淅;涂勇健;周鑫宇;谭紫怡;胡建文;黄妮;谢象旋;刘崇宇;李建龙;杨夏颖;涂天宇;徐小凤;姚思雅;熊文超;陶熠轩;罗梓亮;胡振东;刘文志;肖梓梁;涂霜;黄志豪;李雪如;吴广安;黄淞;陶鸿博;匡珍妮;辜欣雨;付雯慧;郭香;刘雅琦;王紫梦;杨芷萱;熊星;郭聪;何灿;吴康华;周盼;李桂林;王嘉欣;徐凯兴;涂阳;高艺馨;李文斌;万盼盼;周芮;李兆沙;王梓俊;谌嘉琪;黄文欢;李星宇;邓钟浩;吴健雄;邱子健;万蔷雨;刘畅;陈千甬;高行;李宇航;刘俊杰;罗善佳;田金兰;涂琬婷;杨智群;喻君如';
-var allPerson = class12;
+var classNow = '曾泽轩;陈祺文;陈香静;邓志远;高子骞;辜尹;何文;何言一;何羽宁;胡夏芸;黄思雨;黄依娜;刘时磊;刘心语;刘言轩;刘子发;卢嘉伟;罗佳辉;罗俊宇;罗志聪;铙宇昕;铙语欣;欧阳佳微;帅海超;唐子逸;涂传勇;涂子谦;万佳欣;万欣悦;万宇茜;王林超;王铭伟;魏浩民;吴浩宇;吴绍华;吴正豪;夏子秋;熊恩琦;熊佳依;熊金次;熊静雨;熊俊宇;熊雨霏;杨礼俊;杨私语;杨宇恬;姚奕如;张子玥;张梓欣;章家琪;周欣妍;邹弈坤;邹梓钰';
+var allPerson = classNow;
 //未中奖人员名单
 var remainPerson = allPerson.toString().split(";");
 //中奖人员名单
 var luckyMan = [];
 var timer;//定时器
 $(function () {
-    $('.cls12').on('click', function () {
-        $('.switch').removeClass('checked');
-        $('.cls12').addClass('checked');
-        allPerson = class12;
-        resetPerson();
-    });
-    $('.cls14').on('click', function () {
-        $('.switch').removeClass('checked');
-        $('.cls14').addClass('checked');
-        allPerson = class14;
-        resetPerson();
-    });
+    // 切换班级
+    // $('.cls12').on('click', function () {
+    //     $('.switch').removeClass('checked');
+    //     $('.cls12').addClass('checked');
+    //     allPerson = class12;
+    //     resetPerson();
+    // });
+    // $('.cls14').on('click', function () {
+    //     $('.switch').removeClass('checked');
+    //     $('.cls14').addClass('checked');
+    //     allPerson = class14;
+    //     resetPerson();
+    // });
     iconAnimation();
     //开始抽奖
     $("#btnStart").on("click", function () {
