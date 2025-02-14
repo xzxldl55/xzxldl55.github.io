@@ -42,11 +42,12 @@
         }
 
         h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             color: var(--primary-color);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 1.5rem;
             animation: textGlow 2s ease-in-out infinite;
+            text-align: center;
         }
 
         @keyframes textGlow {
@@ -58,7 +59,7 @@
             line-height: 1.8;
             color: #666;
             position: relative;
-            padding: 2rem;
+            padding: 1rem;
             background: white;
             border-radius: 15px;
             box-shadow: inset 0 0 15px rgba(255, 126, 185, 0.2);
@@ -84,6 +85,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(255, 126, 185, 0.3);
+            margin-top: 0.5rem;
         }
 
         .custom-button:hover {
@@ -162,7 +164,7 @@
                 padding: 1.5rem;
             }
             h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
         }
     </style>
@@ -283,11 +285,6 @@
             // 初始化爱心
             createHearts();
         });
-      
-      window.onload = () => {
-         console.log('parent:', window.parent.document);
-        window.parent.document.getElementById('main-header').style.display = 'none'
-      }
     </script>
 </body>
 </html>
