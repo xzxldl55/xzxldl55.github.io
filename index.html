@@ -1,39 +1,293 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>抽取幸运同学答题辣！</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/animate.css" />
-    <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-    <script src="js/lib/common.js"></script>
-    <script src="js/index.js"></script>
+    <title>情人节特制情书</title>
+    <style>
+        :root {
+            --primary-color: #ff7eb9;
+            --secondary-color: #ff65a3;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Microsoft YaHei', cursive;
+            background: linear-gradient(rgba(255, 182, 193, 0.2), rgba(255, 192, 203, 0.2)), 
+                        url('https://images.unsplash.com/photo-1518621733866-3b57f4f156af?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 126, 185, 0.3);
+            max-width: 600px;
+            margin: 5% auto;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            animation: textGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+            50% { text-shadow: 0 0 20px var(--secondary-color); }
+        }
+
+        .love-letter {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #666;
+            position: relative;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: inset 0 0 15px rgba(255, 126, 185, 0.2);
+        }
+
+        .love-letter::before {
+            content: "💌";
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.2;
+            right: -20px;
+            top: -30px;
+            transform: rotate(15deg);
+        }
+
+        .custom-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 126, 185, 0.3);
+        }
+
+        .custom-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 126, 185, 0.5);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            width: 70%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.98);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 126, 185, 0.3);
+            z-index: 999;
+            max-width: 400px;
+            text-align: center;
+            animation: modalIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        @keyframes modalIn {
+            from { transform: translate(-50%, -50%) scale(0); }
+            to { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .heart {
+            position: absolute;
+            color: var(--primary-color);
+            animation: fall linear forwards;
+            font-size: 1.5rem;
+            top: -10vh;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(120vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .petal {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear infinite;
+            top: -10vh;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 60px 20px;
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
-    <div id="box">
-        <header>
-            <!-- <div class="switch_box">
-                <button class="switch cls12 checked">12班</button>
-                <button class="switch cls14">14班</button>
-            </div> -->
-        </header>
-        <section>
-            <div class="hide" id="luckyDrawing"><input id="showName" readonly type="text"></div>
-            <div class="hide" id="result">
-                <div></div>
-            </div>
-        </section>
-        <footer>
-            <div class="btns">
-                <input type="number" id="txtNum" value="1" placeholder="请输入抽取人数">
-                <button id="btnStart">开始</button>
-                <button id="btnReset">重置</button>
-            </div>
-        </footer>
+    <div class="container">
+        <h1>❤️ 情人节快乐 ❤️</h1>
+        <div class="love-letter">
+            <p>亲爱的弦儿：</p>
+            <p>喜欢你，就像晨曦爱上黎明，温柔又坚定。每一个有你的日子，都是我生命里最美好的风景。</p>
+            <p>愿陪你看遍世间繁华，细数每个春夏秋冬。执子之手，静待岁月流转，不负这满怀欢喜。</p>
+            <p>永远爱你的 👑ldl👑</p>
+        </div>
+        <button class="custom-button" onclick="showSpecialMessage()">开启心动惊喜</button>
     </div>
-</body>
 
+    <div id="specialModal" class="modal">
+        <span class="modal-close" onclick="closeModal()">×</span>
+        <h2 style="color: var(--primary-color);">💝 专属告白 💝</h2>
+        <p>你是我生命里</p>
+        <p>最温暖的阳光</p>
+        <p>最甜蜜的微笑</p>
+        <p>最珍贵的回忆</p>
+        <p>最想珍惜的人</p>
+        <div style="font-size: 3rem; margin-top: 1rem;">💖</div>
+    </div>
+
+    <div class="hearts" id="heartsContainer"></div>
+
+    <script>
+        // 创建爱心雨
+        function createHearts() {
+            const container = document.getElementById('heartsContainer');
+            const heartCount = 30;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`; // 随机初始位置
+                heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                heart.style.opacity = Math.random() * 0.7 + 0.3;
+                heart.innerHTML = '❤️';
+                container.appendChild(heart);
+
+                // 动画结束后重新创建
+                heart.addEventListener('animationend', function() {
+                    heart.remove();
+                    createHeart();
+                });
+            }
+        }
+
+        // 创建单个爱心的函数
+        function createHeart() {
+            const container = document.getElementById('heartsContainer');
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.top = '-5%';
+            heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            heart.style.opacity = Math.random() * 0.7 + 0.3;
+            heart.innerHTML = '💖';
+            container.appendChild(heart);
+
+            heart.addEventListener('animationend', function() {
+                heart.remove();
+                createHeart();
+            });
+        }
+
+        // 显示自定义弹窗
+        function showSpecialMessage() {
+            document.getElementById('specialModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 关闭弹窗
+        function closeModal() {
+            document.getElementById('specialModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 点击外部关闭弹窗
+        window.onclick = function(event) {
+            const modal = document.getElementById('specialModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // 修改花瓣创建函数
+        document.addEventListener('DOMContentLoaded', function() {
+            const petals = ['🌸', '🌺', '🌷', '🌼', '💮'];
+            const petalCount = 15;
+            
+            function createPetal() {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.left = `${Math.random() * 100}%`;
+                petal.style.fontSize = `${Math.random() * 20 + 15}px`;
+                petal.style.animationDuration = `${Math.random() * 5 + 8}s`;
+                petal.style.opacity = Math.random() * 0.5 + 0.3;
+                petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
+                document.body.appendChild(petal);
+
+                petal.addEventListener('animationend', function() {
+                    petal.remove();
+                    createPetal();
+                });
+            }
+            
+            // 初始化花瓣，使用不同的延迟时间创建
+            for (let i = 0; i < petalCount; i++) {
+                setTimeout(() => createPetal(), i * 500);
+            }
+
+            // 初始化爱心
+            createHearts();
+        });
+      
+      window.onload = () => {
+         console.log('parent:', window.parent.document);
+        window.parent.document.getElementById('main-header').style.display = 'none'
+      }
+    </script>
+</body>
 </html>
